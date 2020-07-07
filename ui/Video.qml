@@ -16,6 +16,18 @@ Mycroft.Delegate {
     bottomPadding: 0
     fillWidth: true
     
+    property string message: sessionData.setMessage
+    
+    onMessageChanged: {
+        messageBox.visible = true
+        messageBox.enabled = true
+        messageLabel.text = message
+        delay(2000, function() {
+            messageBox.visible = false
+            messageBox.enabled = false
+        }); 
+    }
+    
     Timer {
         id: hideTimer
         interval: 5000
@@ -23,6 +35,17 @@ Mycroft.Delegate {
             ctrlBar.visible = false;
             video.forceActiveFocus();
         }
+    }
+    
+    Timer {
+        id: timer
+    }
+
+    function delay(delayTime, cb) {
+        timer.interval = delayTime;
+        timer.repeat = false;
+        timer.triggered.connect(cb);
+        timer.start();
     }
 
     Video {
@@ -97,6 +120,27 @@ Mycroft.Delegate {
                 
                 imageSource: "images/home.png"
                 textSource: "Show Homescreen"
+            }
+        }
+        
+        Rectangle {
+            id: messageBox
+            visible: false
+            enabled: false
+            color: Qt.rgba(0,0,0,0.8)
+            radius: 10
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            anchors.leftMargin: Kirigami.Units.gridUnit
+            anchors.rightMargin: Kirigami.Units.gridUnit
+            anchors.bottomMargin: Kirigami.Units.gridUnit * 2
+            height: messageLabel.height
+            
+            Controls.Label {
+                id: messageLabel
+                color: "white"
+                anchors.centerIn: parent
             }
         }
     }

@@ -16,7 +16,7 @@ Controls.RoundButton {
     
     background: Rectangle {
         radius: 200
-        color: Qt.rgba(0, 0, 0, 0.75)
+        color: button.down ? Qt.rgba(0, 0, 0.5, 0.75) : Qt.rgba(0, 0, 0, 0.75)
         border.width: 1
         border.color: "white"
         layer.enabled: true

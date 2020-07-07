@@ -55,9 +55,11 @@ Mycroft.Delegate {
          
     ColumnLayout {
         id: configPageButtonsView
-        anchors.bottom: parent.bottom
+        anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
         anchors.right: parent.right
+        anchors.leftMargin: Kirigami.Units.gridUnit
+        anchors.rightMargin: Kirigami.Units.gridUnit
     
         Button {
             id: enableTime

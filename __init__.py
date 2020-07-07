@@ -44,6 +44,8 @@ class PixabaySkill(MycroftSkill):
         self.wantedDir = "pixabayData"
         self.dataPath = join(self.currentDir, self.wantedDir)
         self.videoPath = join(self.dataPath, "video.mp4")
+        
+        # Set All Paths
         try:
             os.mkdir(self.dataPath)
         except OSError as error:
@@ -53,16 +55,16 @@ class PixabaySkill(MycroftSkill):
         self.configDB = join(self.dataPath, 'pixabay-config.db')
         self.idle_config_db = JsonStorage(self.configDB)
         
+        # Make Import For TimeData
         try:
             time_date_path = "/opt/mycroft/skills/mycroft-date-time.mycroftai/__init__.py"
             time_date_id = "datetimeskill"
             datetimeskill = load_skill_module(time_date_path, time_date_id)
             from datetimeskill import TimeSkill
             self.dt_skill = TimeSkill()
-            #print(dateTimeC.get_display_current_time())
         except:
             print("Failed To Import DateTime Skill")
-
+            
     @intent_file_handler("PixabaySearchImage.intent")
     def handle_pixabay_search_image_type(self, message):
         query = message.data["query"]
@@ -72,7 +74,7 @@ class PixabaySkill(MycroftSkill):
         ims = self.image.search(q=query,
              lang='en',
              image_type='photo',
-             orientation='all',
+             orientation='vertical',
              category='all',
              safesearch='true',
              order='latest',
@@ -132,8 +134,10 @@ class PixabaySkill(MycroftSkill):
         
     def handle_pixabay_display(self, state):
         if state is "Image":
+            self.gui["setMessage"] = ""
             self.gui.show_page("Image.qml", override_idle=True)
         elif state is "Video":
+            self.gui["setMessage"] = ""
             self.gui.show_page("Video.qml", override_idle=True)
         else:
             self.gui["pageState"] = state
@@ -149,7 +153,7 @@ class PixabaySkill(MycroftSkill):
                 ims = self.image.search(q=self.previousQuery,
                                         lang='en',
                                         image_type='all',
-                                        orientation='all',
+                                        orientation='vertical',
                                         category='all',
                                         safesearch='true',
                                         order='latest',
@@ -264,12 +268,14 @@ class PixabaySkill(MycroftSkill):
             self.gui["idleGenericURL"] = imagePath
             self.idle_db["idleInfo"] = {"idleType": "ImageIdle", "idleGenericURL": imagePath}
             self.idle_db.store()
+            self.gui["setMessage"] = "New Homescreen Set"
         if idleType == "Video":
             idleVideoURL = message.data["idleVideoURL"]
             self.gui["idleType"] = "VideoIdle"
             self.gui["idleGenericURL"] = idleVideoURL
             self.idle_db["idleInfo"] = {"idleType": "VideoIdle", "idleGenericURL": idleVideoURL}
             self.idle_db.store()
+            self.gui["setMessage"] = "New Homescreen Set"
             
     def handle_idlescreen_first_run(self):
         # Check If Idle Screen DB Exist and Not Empty
@@ -354,7 +360,7 @@ class PixabaySkill(MycroftSkill):
     
     def handle_remove_configure_idle_screen(self):
         self.gui.remove_page("ConfigurePixabayIdle.qml")
-    
+            
     def stop(self):
         pass
 
