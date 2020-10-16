@@ -1,0 +1,11 @@
+[Desktop Entry]
+X-DBUS-StartupType=None
+X-KDE-StartupNotify=false
+Version=1.0
+Terminal=false
+Type=Application
+Name=Pixabay
+Exec=mycroft-gui-app --hideTextInput --skill=pixabay-skill.aiix.home
+Icon=pxlogo
+Categories=VoiceApp
+StartupNotify=false

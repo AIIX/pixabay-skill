@@ -1,0 +1,5 @@
+{
+    "android_icon": "/res/icon/pxlogo.png",
+    "android_name": "Pixabay",
+    "android_handler": "pixabay-skill.aiix.home"
+}

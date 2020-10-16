@@ -24,6 +24,7 @@ class PixabaySkill(MycroftSkill):
         super(PixabaySkill, self).__init__(name="PixabaySkill")
     
     def initialize(self):
+        self.add_event('pixabay-skill.aiix.home', self.handle_pixabay_homescreen)
         self.gui.register_handler("pixabay.show.image", self.handle_pixabay_show_image)
         self.gui.register_handler("pixabay.show.video", self.handle_pixabay_show_video)
         self.gui.register_handler("pixabay.gallery.next", self.handle_gallery_next_page)
@@ -64,6 +65,9 @@ class PixabaySkill(MycroftSkill):
             self.dt_skill = TimeSkill()
         except:
             print("Failed To Import DateTime Skill")
+            
+    def handle_pixabay_homescreen(self, message):
+        self.handle_pixabay_display("Homescreen")
             
     @intent_file_handler("PixabaySearchImage.intent")
     def handle_pixabay_search_image_type(self, message):
@@ -139,6 +143,8 @@ class PixabaySkill(MycroftSkill):
         elif state is "Video":
             self.gui["setMessage"] = ""
             self.gui.show_page("Video.qml", override_idle=True)
+        elif state is "Homescreen":
+            self.gui.show_page("Homepage.qml", override_idle=True)
         else:
             self.gui["pageState"] = state
             self.gui.show_page("pixabayLoader.qml", override_idle=True)
@@ -360,7 +366,7 @@ class PixabaySkill(MycroftSkill):
     
     def handle_remove_configure_idle_screen(self):
         self.gui.remove_page("ConfigurePixabayIdle.qml")
-            
+        
     def stop(self):
         pass
 
