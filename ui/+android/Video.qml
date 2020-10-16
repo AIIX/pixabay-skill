@@ -90,8 +90,24 @@ Mycroft.Delegate {
                 textSource: "Play / Pause"
             }
             
+            //RoundButton {
+                //id: setashomebtn
+                //anchors.top: playpausebtn.bottom
+                //anchors.topMargin: Kirigami.Units.largeSpacing
+                //anchors.horizontalCenter: parent.horizontalCenter
+                //width: parent.width - Kirigami.Units.gridUnit
+                //height: Kirigami.Units.iconSizes.large * 2
+                
+                //onClicked: {
+                     //triggerGuiEvent("pixabay.idle.set_idle", {"idleType": "Video", "idleVideoURL": sessionData.videoURL})
+                //}
+                
+                //imageSource: "images/sethome.png"
+                //textSource: "Set Homescreen"
+            //}
+            
             RoundButton {
-                id: setashomebtn
+                id: showhomebtn
                 anchors.top: playpausebtn.bottom
                 anchors.topMargin: Kirigami.Units.largeSpacing
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -99,23 +115,7 @@ Mycroft.Delegate {
                 height: Kirigami.Units.iconSizes.large * 2
                 
                 onClicked: {
-                     triggerGuiEvent("pixabay.idle.set_idle", {"idleType": "Video", "idleVideoURL": sessionData.videoURL})
-                }
-                
-                imageSource: "images/sethome.png"
-                textSource: "Set Homescreen"
-            }
-            
-            RoundButton {
-                id: showhomebtn
-                anchors.top: setashomebtn.bottom
-                anchors.topMargin: Kirigami.Units.largeSpacing
-                anchors.horizontalCenter: parent.horizontalCenter
-                width: parent.width - Kirigami.Units.gridUnit
-                height: Kirigami.Units.iconSizes.large * 2
-                
-                onClicked: {
-                    Mycroft.MycroftController.sendRequest("mycroft.mark2.reset_idle", {})
+                    Mycroft.MycroftController.sendText("show homescreen", {})
                 }
                 
                 imageSource: "images/home.png"
